@@ -1,353 +1,448 @@
-/* ==============================
-   THEME VARIABLES
-   ============================== */
-:root {
-  --felt-color: #006400;
-  --felt-gradient: radial-gradient(circle at center, #228B22, var(--felt-color));
-  --table-border: #FFD700;
-  --chip-red: #e74c3c;
-  --chip-blue: #3498db;
-  --chip-green: #27ae60;
-  --chip-black: #000;
-  --chip-glow: 0 0 10px rgba(255, 255, 255, 0.7);
-  --card-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
-  --transition-speed: 0.6s;
-}
-
-/* ==============================
-   GENERAL STYLES
-   ============================== */
+/* General Styles */
 body {
-  background: var(--felt-color);
-  font-family: Arial, sans-serif;
-  color: white;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
+    background: #006400;
+    font-family: Arial, sans-serif;
+    color: white;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevent scrolling */
 }
 
-/* Page Layout Transitions */
-.index-page, .game-container, .win-page {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  transition: transform 1s ease;
+/* Container Positions */
+.index-page,.game-container, .win-page{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    transition: transform 1s ease;
 }
 
-.game-container, .win-page {
-  transform: translateY(100vh);
+/* Game and win pages hidden initially */
+.game-container, .win-page{
+    transform: translateY(100vh);
 }
 
-#index-page:checked ~ .index-page { transform: translateY(0); }
-#game-page:checked ~ .index-page { transform: translateY(-100vh); }
-#game-page:checked ~ .game-container { transform: translateY(0); }
-#win-page:checked ~ .game-container { transform: translateY(-100vh); }
+#game-page:checked ~ .index-page {
+    transform: translateY(-100vh);
+}
 
-/* ==============================
-   INDEX PAGE
-   ============================== */
+#game-page:checked ~ .game-container {
+    transform: translateY(0);
+}
+
+#win-page:checked ~ .game-container {
+    transform: translateY(-100vh);
+}
+
+/* Index Page Styles */
 .index-page {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 1;
 }
 
 .index-page h1 {
-  font-size: 3em;
-  margin-bottom: 15px;
+    font-size: 3em; /* Reduced font size */
+    margin-bottom: 20px;
 }
 
 .index-page p {
-  font-size: 1.2em;
-  margin-bottom: 25px;
+    font-size: 1.2em; /* Reduced font size */
+    margin-bottom: 30px;
+}
+
+.play-button {
+    cursor: pointer;
 }
 
 .play-button span {
-  display: inline-block;
-  padding: 12px 28px;
-  background: linear-gradient(to bottom, #FFD700, #FFA500);
-  color: black;
-  border-radius: 6px;
-  font-size: 1.3em;
-  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
-  transition: transform 0.1s, background 0.3s;
+    display: inline-block;
+    padding: 10px 20px; /* Reduced padding */
+    background: linear-gradient(to bottom, #FFD700, #FFA500);
+    color: black;
+    border-radius: 5px;
+    font-size: 1.3em; /* Reduced font size */
+    transition: background 0.3s, transform 0.1s;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3); /* Reduced shadow */
 }
 
 .play-button span:hover {
-  background: linear-gradient(to bottom, #FFA500, #FF8C00);
-  transform: scale(1.05);
+    background: linear-gradient(to bottom, #FFA500, #FF8C00);
 }
 
-/* ==============================
-   GAME CONTAINER
-   ============================== */
+.play-button span:active {
+    transform: scale(0.95);
+}
+
+/* Smaller Win Game Button */
+.win-game-button {
+    cursor: pointer;
+    padding: 8px 20px; /* Reduced padding */
+    background: linear-gradient(to bottom, #FFD700, #FFA500);
+    color: black;
+    border-radius: 5px;
+    font-size: 1.1em; /* Reduced font size */
+    transition: background 0.3s, transform 0.1s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    margin-top: 1500px; /* Adjusted position */
+}
+
+.win-game-button:hover {
+    background: linear-gradient(to bottom, #FFA500, #FF8C00);
+}
+
+.win-game-button:active {
+    transform: scale(0.95);
+}
+
+/* Game Container Styles */
 .game-container {
-  text-align: center;
-  z-index: 2;
+    text-align: center;
+    z-index: 2;
 }
 
-/* Coin Balance */
+/* Coin Balance Styles */
 .coin-balance {
-  font-size: 1.2em;
-  margin-bottom: 8px;
+    font-size: 1.2em; /* Reduced font size */
+    margin-bottom: 10px;
 }
 
 .chip-container {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
-/* Chips */
 .chip {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-weight: bold;
-  margin: 4px;
-  box-shadow: inset 0 0 0 4px white, var(--card-shadow);
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
+    width: 40px; /* Reduced size */
+    height: 40px;
+    border-radius: 50%;
+    position: relative;
+    margin: 3px;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: red;
+    box-shadow: inset 0 0 0 4px white, 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.red-chip { background: var(--chip-red); }
-.blue-chip { background: var(--chip-blue); }
-.green-chip { background: var(--chip-green); }
-.black-chip { background: var(--chip-black); color: gold; }
+/* Chip Colors */
+.red-chip { background: red; }
+.blue-chip { background: blue; }
+.green-chip { background: green; }
+.black-chip { background: black; color: gold; }
 
-.chip:hover {
-  transform: scale(1.1);
-  box-shadow: var(--chip-glow);
+/* Betting Options */
+.betting-options {
+    margin-bottom: 15px;
 }
 
-/* ==============================
-   TABLE + DEALING AREA
-   ============================== */
+.betting-options p {
+    font-size: 1em; /* Reduced font size */
+    margin-bottom: 10px;
+}
+
+.bet-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.bet-buttons label {
+    margin: 0 8px; /* Reduced margin */
+    cursor: pointer;
+}
+
+.bet-buttons .chip {
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.bet-buttons .chip:hover {
+    transform: scale(1.05); /* Slightly smaller scale effect */
+    box-shadow: inset 0 0 0 4px white, 0 3px 6px rgba(0, 0, 0, 0.7);
+}
+
+.bet-buttons .chip:active {
+    transform: scale(1.02);
+}
+
+/* Table and Cards */
 .table {
-  background: var(--felt-gradient);
-  border: 4px solid var(--table-border);
-  border-radius: 12px;
-  padding: 20px;
-  position: relative;
-  margin: 0 auto;
-  width: 70%;
-  height: 350px;
-  perspective: 800px; /* Adds depth for 3D cards */
-  box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
+    background: radial-gradient(circle at center, #228B22, #006400);
+    padding: 15px; /* Reduced padding */
+    border-radius: 8px; /* Reduced radius */
+    border: 3px solid #FFD700; /* Reduced border */
+    position: relative;
+    margin: 0 auto;
+    max-width: 600px; /* Reduced width */
+    height: 300px; /* Reduced height */
 }
 
-/* ==============================
-   PLAYER & DEALER LAYOUT
-   ============================== */
+/* Player Styles */
 .player, .dealer {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.dealer { top: 20px; left: 50%; transform: translateX(-50%); }
-.player-1 { left: 5%; top: 50%; transform: translateY(-50%); }
-.player-2 { bottom: 10px; left: 25%; }
-.player-3 { right: 5%; top: 50%; transform: translateY(-50%); }
-.player-4 { bottom: 10px; right: 25%; }
+/* Player and Dealer Hands */
+.hand {
+    display: flex;
+}
 
+/* Player and Dealer Name Floating Above the Cards */
 .player-name, .dealer-name {
-  background: rgba(0,0,0,0.5);
-  padding: 4px 8px;
-  border-radius: 5px;
-  margin-bottom: 5px;
-  font-size: 1.1em;
+    font-size: 1.2em; /* Reduced font size */
+    margin-bottom: 8px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 4px 8px; /* Reduced padding */
+    border-radius: 5px;
+    text-align: center;
 }
 
-/* ==============================
-   CARDS
-   ============================== */
+/* Dealer (Top) */
+.dealer {
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Player 1 (Left Side) */
+.player-1 {
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+}
+
+/* Player 2 (Bottom-Left Side) */
+.player-2 {
+    bottom: 10px;
+    left: 20%;
+}
+
+/* Player 3 (Right Side) */
+.player-3 {
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+}
+
+/* Player 4 (Bottom-Right Side) */
+.player-4 {
+    bottom: 10px;
+    right: 20%;
+}
+
+/* Cards Styles */
 .card {
-  width: 65px;
-  height: 95px;
-  margin: 0 8px;
-  border-radius: 5px;
-  transform-style: preserve-3d;
-  transition: transform var(--transition-speed) ease, box-shadow 0.3s;
-  box-shadow: var(--card-shadow);
-  cursor: pointer;
+    width: 60px; /* Reduced width */
+    height: 90px; /* Reduced height */
+    margin: 0 8px; /* Reduced margin */
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3); /* Reduced shadow size */
 }
 
-.card::before, .card::after {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 5px;
-  backface-visibility: hidden;
+.card::before,
+.card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    backface-visibility: hidden;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.2); /* Reduced shadow */
 }
 
 .card::before {
-  background: url('card-back.png') center/cover;
+    background: url('card-back.png') no-repeat center/cover;
 }
+
 .card::after {
-  background: url('card-front.png') center/cover;
-  transform: rotateY(180deg);
+    background: url('card-front.png') no-repeat center/cover;
+    transform: rotateY(180deg);
 }
 
-/* Hover Peek */
-.card:hover {
-  transform: translateY(-8px) rotateY(10deg);
-  box-shadow: 0 6px 10px rgba(255,255,255,0.4);
-}
-
-/* Extra Card Reveal on Hit */
+/* Extra Card */
 .extra-card {
-  display: none;
+    display: none;
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease;
 }
 
+/* Show and flip the extra card when the 'Hit' button is checked */
 #hit-card-1:checked ~ .game-container .player-1 .extra-card {
-  display: inline-block;
-  animation: dealCard 0.7s ease forwards;
+    display: inline-block;
+    animation: dealCard 0.5s forwards;
+    transform: rotateY(180deg);
 }
 
-/* ==============================
-   ANIMATIONS
-   ============================== */
-@keyframes dealCard {
-  0% { transform: translate(-200px, -200px) rotate(-30deg); opacity: 0; }
-  100% { transform: translate(0,0) rotate(0); opacity: 1; }
+/* Card Hover Effect */
+.card:hover {
+    transform: rotateY(180deg) scale(1.05); /* Reduced scale effect */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Shuffle Animation */
-@keyframes shuffle {
-  0% { transform: rotate(0deg); }
-  25% { transform: rotate(15deg); }
-  50% { transform: rotate(-10deg); }
-  75% { transform: rotate(10deg); }
-  100% { transform: rotate(0deg); }
-}
-
-.dealer .card {
-  animation: shuffle 1s ease-in-out 2;
-}
-
-/* Dealer Burn Card Animation */
-@keyframes burnCard {
-  0% { transform: translateX(0) rotate(0deg); opacity: 1; }
-  100% { transform: translateX(200px) rotate(90deg); opacity: 0; }
-}
-
-.dealer .card:first-child {
-  animation: burnCard 1s ease forwards;
-}
-
-/* ==============================
-   CONTROLS
-   ============================== */
+/* Controls */
 .controls {
-  margin-top: 15px;
-  display: flex;
-  justify-content: center;
+    margin-top: 20px; /* Reduced margin */
+    display: flex;
+    justify-content: center;
 }
 
 .controls label {
-  margin: 0 8px;
-  cursor: pointer;
+    margin: 0 8px; /* Reduced margin */
+    cursor: pointer;
 }
 
 .controls span {
-  display: inline-block;
-  padding: 8px 14px;
-  background: linear-gradient(to bottom, #FFD700, #FFA500);
-  color: black;
-  border-radius: 5px;
-  transition: transform 0.1s, background 0.3s;
+    display: inline-block;
+    padding: 8px 14px; /* Reduced padding */
+    background: linear-gradient(to bottom, #FFD700, #FFA500);
+    color: black;
+    border-radius: 5px;
+    transition: background 0.3s, transform 0.1s;
 }
 
-.controls span:hover {
-  background: linear-gradient(to bottom, #FFA500, #FF8C00);
-  transform: scale(1.05);
+/* Back Button */
+.back-button {
+    cursor: pointer;
+    margin-top: 10px;
+    display: inline-block;
 }
 
-/* ==============================
-   WIN PAGE
-   ============================== */
-.win-page {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0,0,0,0.85);
-  z-index: 3;
-}
-
-.win-message {
-  font-size: 2.8em;
-  color: #FFD700;
-  text-shadow: 2px 2px 5px black;
-  margin-bottom: 30px;
-}
-
-.confetti-container {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.confetti {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  background: rgba(255,215,0,0.8);
-  top: -10px;
-  animation: fall 3s linear infinite;
-}
-
-@keyframes fall {
-  0% { transform: translateY(0) rotate(0deg); }
-  100% { transform: translateY(100vh) rotate(360deg); }
-}
-
-/* Random confetti positions */
-.confetti:nth-child(1){left:10%;animation-duration:3s;}
-.confetti:nth-child(2){left:25%;animation-duration:4s;}
-.confetti:nth-child(3){left:40%;animation-duration:2.5s;}
-.confetti:nth-child(4){left:55%;animation-duration:3.5s;}
-.confetti:nth-child(5){left:70%;animation-duration:4s;}
-.confetti:nth-child(6){left:85%;animation-duration:3s;}
-.confetti:nth-child(7){left:15%;animation-duration:4.5s;}
-.confetti:nth-child(8){left:30%;animation-duration:3s;}
-.confetti:nth-child(9){left:60%;animation-duration:2.5s;}
-.confetti:nth-child(10){left:90%;animation-duration:3.5s;}
-
-/* Back to Menu Button */
 .back-button span {
-  padding: 10px 22px;
-  background: linear-gradient(to bottom, #FFD700, #FFA500);
-  color: black;
-  border-radius: 6px;
-  font-size: 1.2em;
-  transition: transform 0.1s, background 0.3s;
+    display: inline-block;
+    padding: 10px 20px; /* Reduced padding */
+    background: linear-gradient(to bottom, #FFD700, #FFA500);
+    color: black;
+    border-radius: 5px;
+    font-size: 1.2em; /* Reduced font size */
+    transition: background 0.3s, transform 0.1s;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
 }
 
 .back-button span:hover {
-  background: linear-gradient(to bottom, #FFA500, #FF8C00);
-  transform: scale(1.05);
+    background: linear-gradient(to bottom, #FFA500, #FF8C00);
 }
 
-/* ==============================
-   RESPONSIVE DESIGN
-   ============================== */
+.back-button span:active {
+    transform: scale(0.95);
+}
+
+
+/* Animation for dealing card */
+@keyframes dealCard {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Winning Page Styles */
+.win-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 3;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+}
+
+/* Winning Message */
+.win-message {
+    font-size: 2.5em; /* Reduced font size */
+    color: #FFD700;
+    text-shadow: 2px 2px #000;
+    margin-bottom: 30px;
+}
+
+/* Confetti Animation */
+.confetti-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.confetti {
+    position: absolute;
+    width: 8px; /* Reduced size */
+    height: 8px;
+    background: rgba(255, 215, 0, 0.8); /* Yellow confetti */
+    top: -10px;
+    animation: fall 3s linear infinite;
+    opacity: 0.8;
+}
+
+/* Color variations for confetti */
+.confetti:nth-child(odd) { background: rgba(255, 69, 0, 0.8); }  /* Orange */
+.confetti:nth-child(3n) { background: rgba(0, 191, 255, 0.8); }  /* Blue */
+.confetti:nth-child(4n) { background: rgba(50, 205, 50, 0.8); }  /* Green */
+.confetti:nth-child(5n) { background: rgba(238, 130, 238, 0.8); } /* Violet */
+
+/* Falling animation */
+@keyframes fall {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(100vh) rotate(360deg); }
+}
+
+/* Random positions for confetti */
+.confetti:nth-child(1) { left: 10%; animation-duration: 3s; }
+.confetti:nth-child(2) { left: 25%; animation-duration: 4s; }
+.confetti:nth-child(3) { left: 40%; animation-duration: 2.5s; }
+.confetti:nth-child(4) { left: 55%; animation-duration: 3.5s; }
+.confetti:nth-child(5) { left: 70%; animation-duration: 4s; }
+.confetti:nth-child(6) { left: 85%; animation-duration: 3s; }
+.confetti:nth-child(7) { left: 15%; animation-duration: 4.5s; }
+.confetti:nth-child(8) { left: 30%; animation-duration: 3s; }
+.confetti:nth-child(9) { left: 60%; animation-duration: 2.5s; }
+.confetti:nth-child(10) { left: 90%; animation-duration: 3.5s; }
+
+/* Responsive Design */
 @media (max-width: 600px) {
-  .card { width: 50px; height: 75px; }
-  .chip { width: 35px; height: 35px; font-size: 0.8em; }
-  .controls span, .back-button span { font-size: 0.9em; padding: 6px 10px; }
-  .win-message { font-size: 2em; }
+    .card {
+        width: 50px; /* Further reduced size */
+        height: 75px;
+    }
+
+    .controls span,
+    .back-button span,
+    .bet-buttons .chip {
+        padding: 6px 12px; /* Further reduced padding */
+        font-size: 12px; /* Further reduced font size */
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    .chip {
+        width: 35px; /* Further reduced size */
+        height: 35px;
+        font-size: 0.8em;
+    }
 }
