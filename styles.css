@@ -1,6 +1,3 @@
-/* ===============================
-   CASINO GAME STYLESHEET
-   =============================== */
 
 /* -------- THEME VARIABLES -------- */
 :root {
@@ -31,9 +28,7 @@ body {
 h1, p { text-align: center; }
 label { cursor: pointer; }
 
-/* =======================================
-   PAGE VISIBILITY & FLOW
-   ======================================= */
+
 
 /* Hide all pages by default */
 .bet-page-container,
