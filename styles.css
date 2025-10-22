@@ -1,0 +1,431 @@
+/* ===============================
+   CASINO GAME STYLESHEET
+   =============================== */
+
+/* -------- THEME VARIABLES -------- */
+:root {
+  --felt-color: #0b6623;
+  --table-border: #e2c044;
+  --chip-red: #ff4444;
+  --chip-blue: #3399ff;
+  --chip-green: #33cc66;
+  --chip-black: #222;
+  --text-color: #fff;
+  --card-width: 80px;
+  --card-height: 120px;
+}
+
+/* -------- GLOBAL STYLES -------- */
+body {
+  font-family: "Poppins", sans-serif;
+  background: radial-gradient(circle, #003300, var(--felt-color));
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  overflow: hidden;
+}
+
+h1, p { text-align: center; }
+label { cursor: pointer; }
+
+/* =======================================
+   PAGE VISIBILITY & FLOW
+   ======================================= */
+
+/* Hide all pages by default */
+.bet-page-container,
+.game-container,
+.win-page {
+  display: none;
+  position: absolute;
+  inset: 0;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+/* Show the active page */
+#bet-page:checked ~ .bet-page-container,
+#game-page:checked ~ .game-container {
+  display: flex;
+}
+
+/* --- Stand/Win Transition Logic --- */
+/* 1. When #win-page is checked, KEEP .game-container visible... */
+#win-page:checked ~ .game-container {
+  display: flex;
+  opacity: 0;
+  pointer-events: none;
+  /* 2. ...but fade it out AFTER 1.5s (to let cards flip) */
+  transition: opacity 0.5s ease-in-out 1.5s;
+}
+
+/* 3. Show the .win-page... */
+#win-page:checked ~ .win-page {
+  display: flex;
+  opacity: 0;
+  /* 4. ...and fade it in AFTER 1.5s */
+  animation: fadeIn 0.5s ease-in-out 1.5s forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+/* =======================================
+   BETTING PAGE STYLES
+   ======================================= */
+.bet-page-container {
+  background: radial-gradient(circle at center, #004d00, #001a00);
+}
+
+.chip-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.chip {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-weight: bold;
+  box-shadow: 0 0 0 4px #fff inset;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.red-chip { background: var(--chip-red); }
+.blue-chip { background: var(--chip-blue); }
+.green-chip { background: var(--chip-green); }
+.black-chip { background: var(--chip-black); }
+
+/* CORE: Chip Hover Effect */
+.chip:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 20px gold;
+}
+
+.play-button {
+  margin-top: 30px;
+  padding: 15px 40px;
+  border: 3px solid gold;
+  border-radius: 10px;
+  background: linear-gradient(45deg, gold, orange);
+  color: #000;
+  font-weight: bold;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.play-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px gold;
+}
+
+/* =======================================
+   GAME TABLE STYLES
+   ======================================= */
+.game-container {
+  width: 100%;
+  height: 100vh;
+}
+
+.table {
+  position: relative;
+  width: 90%;
+  max-width: 1000px;
+  height: 70vh;
+  background: radial-gradient(circle at center, #006600, var(--felt-color));
+  border: 6px solid var(--table-border);
+  border-radius: 300px;
+  margin: 20px auto;
+  /* STRETCH: 3D Perspective */
+  perspective: 2000px;
+}
+
+/* -------- Players and Dealer -------- */
+.dealer {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+}
+.dealer-name, .player-name {
+  position: absolute;
+  top: -25px;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  color: gold;
+}
+.player-area {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+}
+.player {
+  display: flex;
+  gap: 10px;
+  position: relative;
+}
+.player-1 { transform: rotateX(10deg); }
+.player-2 { transform: translateX(50px) rotateX(10deg); }
+.player-3 { transform: translateX(-50px) rotateX(10deg); }
+
+
+/* -------- CARD 3D STRUCTURE -------- */
+.card {
+  width: var(--card-width);
+  height: var(--card-height);
+  perspective: 1000px;
+  background: transparent;
+}
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+.card-front, .card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 10px;
+  background-size: cover;
+  background-position: center;
+}
+
+/* --- Using your provided images --- */
+.card-back {
+  background-image: url("card-back.png");
+}
+.card-front {
+  background: #fff; /* Fallback */
+  transform: rotateY(180deg);
+}
+/* Player 1 gets 'card-front.png' */
+.player-1 .card-front {
+  background-image: url("card-front.png");
+}
+/* Others get 'card-front-2.png' */
+.dealer .card-front,
+.player-2 .card-front,
+.player-3 .card-front {
+  background-image: url("card-front-2.png");
+}
+
+
+/* STRETCH: Hover Peek */
+/* Only Player 1 can peek */
+#game-page:checked ~ .game-container .player-1 .card-inner:hover {
+  transform: translateY(-15px) rotateX(-10deg);
+}
+
+/* =======================================
+   ANIMATIONS (Triggered by #game-page)
+   ======================================= */
+
+/* --- KEYFRAMES --- */
+/* CORE: Shuffle Animation */
+@keyframes shuffle {
+  0%, 100% { transform: translate(0, 0) rotate(0); }
+  25% { transform: translate(-20px, -5px) rotate(-10deg); }
+  50% { transform: translate(20px, 5px) rotate(10deg); }
+  75% { transform: translate(0, 0) rotate(0); }
+}
+/* STRETCH: Dealer Burn Card */
+@keyframes burn {
+  to {
+    opacity: 0;
+    transform: translateX(-300px) translateY(-50px) rotate(-30deg);
+  }
+}
+/* CORE: Deal Sequence */
+@keyframes deal {
+  from { opacity: 0; transform: var(--deal-start-transform); }
+  to { opacity: 1; transform: var(--deal-end-transform); }
+}
+/* Card Flip */
+@keyframes flip {
+  to { transform: rotateY(180deg); }
+}
+
+/* --- POSITIONING CARDS FOR DEAL --- */
+/* All cards start at the deck position (top: 20px, left: 50%) */
+.dealer .card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  --deal-start-transform: translate(0, 0);
+}
+.player .card {
+  position: absolute;
+  /* Move start position relative to player's final spot */
+  --deal-start-transform: translate(calc(50vw - 50% - var(--player-x, 0px)), -35vh);
+}
+.player-1 { --player-x: 50vw; }
+.player-2 { --player-x: 25vw; }
+.player-3 { --player-x: 75vw; }
+
+
+/* --- ANIMATION TRIGGERS --- */
+/* When #game-page is checked, start the animations */
+#game-page:checked ~ .game-container #deck-card {
+  animation: shuffle 0.6s ease-in-out 3; /* Shuffle 3 times (1.8s) */
+}
+#game-page:checked ~ .game-container #burn-card {
+  animation: burn 1s ease-out 2s forwards; /* Burn after shuffle (1.8s + 0.2s) */
+}
+
+/* Deal sequence, staggered with animation-delay */
+/* All cards start at the deck and fly to their spot */
+#game-page:checked ~ .game-container .card {
+  animation: deal 0.5s ease-out forwards;
+  opacity: 0;
+}
+/* Card 1 */
+#game-page:checked ~ .game-container #player-1-card-1 { --deal-end-transform: translate(0, 0); animation-delay: 3.0s; }
+#game-page:checked ~ .game-container #player-2-card-1 { --deal-end-transform: translate(0, 0); animation-delay: 3.3s; }
+#game-page:checked ~ .game-container #player-3-card-1 { --deal-end-transform: translate(0, 0); animation-delay: 3.6s; }
+#game-page:checked ~ .game-container #dealer-card-1   { --deal-end-transform: translate(0, 0); animation-delay: 3.9s; }
+/* Card 2 */
+#game-page:checked ~ .game-container #player-1-card-2 { --deal-end-transform: translate(90px, 0); animation-delay: 4.2s; }
+#game-page:checked ~ .game-container #player-2-card-2 { --deal-end-transform: translate(90px, 0); animation-delay: 4.5s; }
+#game-page:checked ~ .game-container #player-3-card-2 { --deal-end-transform: translate(90px, 0); animation-delay: 4.8s; }
+#game-page:checked ~ .game-container #dealer-card-2   { --deal-end-transform: translate(90px, 0); animation-delay: 5.1s; }
+
+/* Flip Dealer's second card (up-card) */
+#game-page:checked ~ .game-container #dealer-card-2 .card-inner {
+  animation: flip 0.6s ease-out 5.7s forwards;
+}
+
+/* =======================================
+   HIT & STAND ANIMATIONS
+   ======================================= */
+.controls {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 30px;
+}
+.controls label {
+  padding: 12px 30px;
+  border-radius: 10px;
+  border: 2px solid gold;
+  background: linear-gradient(45deg, gold, orange);
+  color: #000;
+  font-weight: bold;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.controls label:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px gold;
+}
+
+/* --- "Hit" Logic --- */
+.extra-card {
+  display: none; /* Hide hit card */
+}
+#hit-card-1:checked ~ .game-container .extra-card {
+  display: block;
+  position: absolute;
+  animation: deal 0.5s ease-out forwards;
+  /* Fly from deck to the 3rd card spot */
+  --deal-start-transform: translate(calc(50vw - 50% - var(--player-x, 0px)), -35vh);
+  --deal-end-transform: translate(180px, 0);
+}
+/* Flip the hit card after it lands */
+#hit-card-1:checked ~ .game-container .extra-card .card-inner {
+  animation: flip 0.6s ease-out 0.5s forwards;
+}
+
+/* --- "Stand" Logic (Reveal All) --- */
+/* When #win-page is checked (Stand), flip all face-down cards */
+/* This happens instantly, during the 1.5s delay before the page fades */
+#win-page:checked ~ .game-container .card-inner {
+  transform: rotateY(180deg);
+}
+
+/* =======================================
+   WIN PAGE STYLES
+   ======================================= */
+.win-page {
+  background: linear-gradient(135deg, #003300, #001a00);
+}
+.win-message {
+  font-size: 2rem;
+  color: gold;
+  margin-bottom: 30px;
+  animation: winFlash 1.2s ease-in-out infinite alternate;
+}
+@keyframes winFlash {
+  from { text-shadow: 0 0 10px gold; }
+  to { text-shadow: 0 0 30px orange; }
+}
+
+.back-button {
+  margin-top: 20px;
+  padding: 12px 30px;
+  background: linear-gradient(45deg, gold, orange);
+  color: #000;
+  border-radius: 10px;
+  border: 2px solid gold;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+.back-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px gold;
+}
+
+/* --- Confetti --- */
+.confetti-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: gold;
+  animation: fall 3s linear infinite;
+}
+.confetti:nth-child(odd) { background: var(--chip-red); }
+.confetti:nth-child(even) { background: var(--chip-blue); }
+.confetti:nth-child(3n) { background: var(--chip-green); }
+.confetti:nth-child(1) { top: 0; left: 10%; animation-delay: 0s; }
+.confetti:nth-child(2) { top: 0; left: 20%; animation-delay: -0.5s; }
+.confetti:nth-child(3) { top: 0; left: 30%; animation-delay: -1s; }
+.confetti:nth-child(4) { top: 0; left: 40%; animation-delay: -0.2s; }
+.confetti:nth-child(5) { top: 0; left: 50%; animation-delay: -1.2s; }
+.confetti:nth-child(6) { top: 0; left: 60%; animation-delay: -0.7s; }
+.confetti:nth-child(7) { top: 0; left: 70%; animation-delay: -1.5s; }
+.confetti:nth-child(8) { top: 0; left: 80%; animation-delay: -0.4s; }
+.confetti:nth-child(9) { top: 0; left: 90%; animation-delay: -1.8s; }
+.confetti:nth-child(10) { top: 0; left: 100%; animation-delay: -0.9s; }
+
+@keyframes fall {
+  0% { transform: translateY(0) rotate(0); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
