@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Casino Game</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <!-- Hidden radio buttons to control page transitions -->
+  <input type="radio" name="page" id="index-page" checked hidden />
+  <input type="radio" name="page" id="game-page" hidden />
+  <input type="radio" name="page" id="win-page" hidden />
+
+  <!-- ===============================
+       INDEX PAGE
+       =============================== -->
+  <div class="index-page">
+    <h1>Welcome to the Casino!</h1>
+    <p>Place your bets and test your luck at our Blackjack table.</p>
+
+    <label for="game-page" class="play-button">
+      <span>Play Game 🎲</span>
+    </label>
+  </div>
+
+  <!-- ===============================
+       GAME PAGE
+       =============================== -->
+  <div class="game-container">
+    <div class="coin-balance">💰 Coins: <strong>5000</strong></div>
+
+    <div class="chip-container">
+      <div class="chip red-chip">10</div>
+      <div class="chip blue-chip">25</div>
+      <div class="chip green-chip">50</div>
+      <div class="chip black-chip">100</div>
+    </div>
+
+    <div class="table">
+      <!-- DEALER -->
+      <div class="dealer">
+        <div class="dealer-name">Dealer</div>
+        <!-- Burn card -->
+        <div class="card" id="burn-card"></div>
+        <!-- Dealer cards -->
+        <div class="card"></div>
+        <div class="card"></div>
+      </div>
+
+      <!-- PLAYER 1 -->
+      <div class="player player-1">
+        <div class="player-name">Player 1</div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card extra-card"></div>
+      </div>
+
+      <!-- PLAYER 2 -->
+      <div class="player player-2">
+        <div class="player-name">Player 2</div>
+        <div class="card"></div>
+        <div class="card"></div>
+      </div>
+
+      <!-- PLAYER 3 -->
+      <div class="player player-3">
+        <div class="player-name">Player 3</div>
+        <div class="card"></div>
+        <div class="card"></div>
+      </div>
+
+      <!-- PLAYER 4 -->
+      <div class="player player-4">
+        <div class="player-name">Player 4</div>
+        <div class="card"></div>
+        <div class="card"></div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+      <input type="checkbox" id="hit-card-1" hidden />
+      <label for="hit-card-1"><span>Hit 🃏</span></label>
+
+      <label for="win-page"><span>Stand 🏁</span></label>
+    </div>
+  </div>
+
+  <!-- ===============================
+       WIN PAGE
+       =============================== -->
+  <div class="win-page">
+    <div class="confetti-container">
+      <div class="confetti"></div>
+      <div class="confetti"></div>
+      <div class="confetti"></div>
+      <div class="confetti"></div>
+      <div class="confetti"></div>
+      <div class="confetti"></div>
+      <div class="confetti"></div>
+      <div class="confetti"></div>
+      <div class="confetti"></div>
+      <div class="confetti"></div>
+    </div>
+
+    <div class="win-message">🎉 Congratulations! You Win! 🎉</div>
+
+    <label for="index-page" class="back-button">
+      <span>Back to Menu 🔁</span>
+    </label>
+  </div>
+</body>
+</html>

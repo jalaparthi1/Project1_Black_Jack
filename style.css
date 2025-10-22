@@ -1,0 +1,353 @@
+/* ==============================
+   THEME VARIABLES
+   ============================== */
+:root {
+  --felt-color: #006400;
+  --felt-gradient: radial-gradient(circle at center, #228B22, var(--felt-color));
+  --table-border: #FFD700;
+  --chip-red: #e74c3c;
+  --chip-blue: #3498db;
+  --chip-green: #27ae60;
+  --chip-black: #000;
+  --chip-glow: 0 0 10px rgba(255, 255, 255, 0.7);
+  --card-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+  --transition-speed: 0.6s;
+}
+
+/* ==============================
+   GENERAL STYLES
+   ============================== */
+body {
+  background: var(--felt-color);
+  font-family: Arial, sans-serif;
+  color: white;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Page Layout Transitions */
+.index-page, .game-container, .win-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  transition: transform 1s ease;
+}
+
+.game-container, .win-page {
+  transform: translateY(100vh);
+}
+
+#index-page:checked ~ .index-page { transform: translateY(0); }
+#game-page:checked ~ .index-page { transform: translateY(-100vh); }
+#game-page:checked ~ .game-container { transform: translateY(0); }
+#win-page:checked ~ .game-container { transform: translateY(-100vh); }
+
+/* ==============================
+   INDEX PAGE
+   ============================== */
+.index-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.index-page h1 {
+  font-size: 3em;
+  margin-bottom: 15px;
+}
+
+.index-page p {
+  font-size: 1.2em;
+  margin-bottom: 25px;
+}
+
+.play-button span {
+  display: inline-block;
+  padding: 12px 28px;
+  background: linear-gradient(to bottom, #FFD700, #FFA500);
+  color: black;
+  border-radius: 6px;
+  font-size: 1.3em;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+  transition: transform 0.1s, background 0.3s;
+}
+
+.play-button span:hover {
+  background: linear-gradient(to bottom, #FFA500, #FF8C00);
+  transform: scale(1.05);
+}
+
+/* ==============================
+   GAME CONTAINER
+   ============================== */
+.game-container {
+  text-align: center;
+  z-index: 2;
+}
+
+/* Coin Balance */
+.coin-balance {
+  font-size: 1.2em;
+  margin-bottom: 8px;
+}
+
+.chip-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Chips */
+.chip {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  margin: 4px;
+  box-shadow: inset 0 0 0 4px white, var(--card-shadow);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.red-chip { background: var(--chip-red); }
+.blue-chip { background: var(--chip-blue); }
+.green-chip { background: var(--chip-green); }
+.black-chip { background: var(--chip-black); color: gold; }
+
+.chip:hover {
+  transform: scale(1.1);
+  box-shadow: var(--chip-glow);
+}
+
+/* ==============================
+   TABLE + DEALING AREA
+   ============================== */
+.table {
+  background: var(--felt-gradient);
+  border: 4px solid var(--table-border);
+  border-radius: 12px;
+  padding: 20px;
+  position: relative;
+  margin: 0 auto;
+  width: 70%;
+  height: 350px;
+  perspective: 800px; /* Adds depth for 3D cards */
+  box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
+}
+
+/* ==============================
+   PLAYER & DEALER LAYOUT
+   ============================== */
+.player, .dealer {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dealer { top: 20px; left: 50%; transform: translateX(-50%); }
+.player-1 { left: 5%; top: 50%; transform: translateY(-50%); }
+.player-2 { bottom: 10px; left: 25%; }
+.player-3 { right: 5%; top: 50%; transform: translateY(-50%); }
+.player-4 { bottom: 10px; right: 25%; }
+
+.player-name, .dealer-name {
+  background: rgba(0,0,0,0.5);
+  padding: 4px 8px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  font-size: 1.1em;
+}
+
+/* ==============================
+   CARDS
+   ============================== */
+.card {
+  width: 65px;
+  height: 95px;
+  margin: 0 8px;
+  border-radius: 5px;
+  transform-style: preserve-3d;
+  transition: transform var(--transition-speed) ease, box-shadow 0.3s;
+  box-shadow: var(--card-shadow);
+  cursor: pointer;
+}
+
+.card::before, .card::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  backface-visibility: hidden;
+}
+
+.card::before {
+  background: url('card-back.png') center/cover;
+}
+.card::after {
+  background: url('card-front.png') center/cover;
+  transform: rotateY(180deg);
+}
+
+/* Hover Peek */
+.card:hover {
+  transform: translateY(-8px) rotateY(10deg);
+  box-shadow: 0 6px 10px rgba(255,255,255,0.4);
+}
+
+/* Extra Card Reveal on Hit */
+.extra-card {
+  display: none;
+}
+
+#hit-card-1:checked ~ .game-container .player-1 .extra-card {
+  display: inline-block;
+  animation: dealCard 0.7s ease forwards;
+}
+
+/* ==============================
+   ANIMATIONS
+   ============================== */
+@keyframes dealCard {
+  0% { transform: translate(-200px, -200px) rotate(-30deg); opacity: 0; }
+  100% { transform: translate(0,0) rotate(0); opacity: 1; }
+}
+
+/* Shuffle Animation */
+@keyframes shuffle {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(15deg); }
+  50% { transform: rotate(-10deg); }
+  75% { transform: rotate(10deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.dealer .card {
+  animation: shuffle 1s ease-in-out 2;
+}
+
+/* Dealer Burn Card Animation */
+@keyframes burnCard {
+  0% { transform: translateX(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateX(200px) rotate(90deg); opacity: 0; }
+}
+
+.dealer .card:first-child {
+  animation: burnCard 1s ease forwards;
+}
+
+/* ==============================
+   CONTROLS
+   ============================== */
+.controls {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.controls label {
+  margin: 0 8px;
+  cursor: pointer;
+}
+
+.controls span {
+  display: inline-block;
+  padding: 8px 14px;
+  background: linear-gradient(to bottom, #FFD700, #FFA500);
+  color: black;
+  border-radius: 5px;
+  transition: transform 0.1s, background 0.3s;
+}
+
+.controls span:hover {
+  background: linear-gradient(to bottom, #FFA500, #FF8C00);
+  transform: scale(1.05);
+}
+
+/* ==============================
+   WIN PAGE
+   ============================== */
+.win-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.85);
+  z-index: 3;
+}
+
+.win-message {
+  font-size: 2.8em;
+  color: #FFD700;
+  text-shadow: 2px 2px 5px black;
+  margin-bottom: 30px;
+}
+
+.confetti-container {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: rgba(255,215,0,0.8);
+  top: -10px;
+  animation: fall 3s linear infinite;
+}
+
+@keyframes fall {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(100vh) rotate(360deg); }
+}
+
+/* Random confetti positions */
+.confetti:nth-child(1){left:10%;animation-duration:3s;}
+.confetti:nth-child(2){left:25%;animation-duration:4s;}
+.confetti:nth-child(3){left:40%;animation-duration:2.5s;}
+.confetti:nth-child(4){left:55%;animation-duration:3.5s;}
+.confetti:nth-child(5){left:70%;animation-duration:4s;}
+.confetti:nth-child(6){left:85%;animation-duration:3s;}
+.confetti:nth-child(7){left:15%;animation-duration:4.5s;}
+.confetti:nth-child(8){left:30%;animation-duration:3s;}
+.confetti:nth-child(9){left:60%;animation-duration:2.5s;}
+.confetti:nth-child(10){left:90%;animation-duration:3.5s;}
+
+/* Back to Menu Button */
+.back-button span {
+  padding: 10px 22px;
+  background: linear-gradient(to bottom, #FFD700, #FFA500);
+  color: black;
+  border-radius: 6px;
+  font-size: 1.2em;
+  transition: transform 0.1s, background 0.3s;
+}
+
+.back-button span:hover {
+  background: linear-gradient(to bottom, #FFA500, #FF8C00);
+  transform: scale(1.05);
+}
+
+/* ==============================
+   RESPONSIVE DESIGN
+   ============================== */
+@media (max-width: 600px) {
+  .card { width: 50px; height: 75px; }
+  .chip { width: 35px; height: 35px; font-size: 0.8em; }
+  .controls span, .back-button span { font-size: 0.9em; padding: 6px 10px; }
+  .win-message { font-size: 2em; }
+}
