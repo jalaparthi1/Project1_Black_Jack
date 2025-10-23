@@ -1,9 +1,12 @@
+/* ===============================
+   CASINO GAME STYLESHEET
+   =============================== */
 
 /* -------- THEME VARIABLES -------- */
 :root {
   --felt-color: #0b6623;
   --table-border: #e2c044;
-  --chip-red: #ff4444;
+  --chip-red: #ff4444; /* This variable is no longer used, but safe to keep */
   --chip-blue: #3399ff;
   --chip-green: #33cc66;
   --chip-black: #222;
@@ -28,7 +31,9 @@ body {
 h1, p { text-align: center; }
 label { cursor: pointer; }
 
-
+/* =======================================
+   PAGE VISIBILITY & FLOW
+   ======================================= */
 
 /* Hide all pages by default */
 .bet-page-container,
@@ -71,7 +76,7 @@ label { cursor: pointer; }
 }
 
 /* =======================================
-   BETTING PAGE STYLES
+   BETTING PAGE STYLES (UPDATED)
    ======================================= */
 .bet-page-container {
   background: radial-gradient(circle at center, #004d00, #001a00);
@@ -97,7 +102,7 @@ label { cursor: pointer; }
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.red-chip { background: var(--chip-red); }
+/* This section is updated */
 .blue-chip { background: var(--chip-blue); }
 .green-chip { background: var(--chip-green); }
 .black-chip { background: var(--chip-black); }
